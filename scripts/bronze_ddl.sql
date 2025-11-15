@@ -1,4 +1,8 @@
-/* Purpose: This script is the DDL script for the bronze layer*/
+/* Purpose: 
+This script creates the required database tables in the bronze layer for storing source ERP and CRM data.
+It first checks whether each table already exists and drops it if necessary, ensuring a clean recreation of all structures.
+The script defines the table schemas (DDL), including column names, data types, and basic layout, so that incoming CSV files can be consistently loaded into a standardized format
+*/
 
 IF OBJECT_ID('bronze.crm_cust_info', 'U') IS NOT NULL
 BEGIN

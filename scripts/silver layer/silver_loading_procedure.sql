@@ -111,11 +111,12 @@ BEGIN
         PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
         PRINT '>> -------------';
 
-        -- Loading crm_sales_details
+        -- Loading crm_sales_detail
         SET @start_time = GETDATE();
-		PRINT '>> Truncating Table: silver.crm_sales_details';
-		TRUNCATE TABLE silver.crm_sales_details;
-		PRINT '>> Inserting Data Into: silver.crm_sales_details';
+		PRINT '>> Truncating Table: silver.crm_sales_detail';
+		TRUNCATE TABLE silver.crm_sales_detail;
+		PRINT '>> Inserting Data Into: silver.crm_sales_detail';
+
 		INSERT INTO silver.crm_sales_detail (
 			sls_ord_num,
 			sls_prd_key,
@@ -147,17 +148,18 @@ BEGIN
 				WHEN sls_sales IS NULL OR sls_sales <= 0 OR sls_sales != sls_quantity * ABS(sls_price) 
 					THEN sls_quantity * ABS(sls_price)
 				ELSE sls_sales
-			END AS sls_sales, -- Recalculate sales if original value is missing or incorrect
+			END AS sls_sales,
 			sls_quantity,
 			CASE 
 				WHEN sls_price IS NULL OR sls_price <= 0 
 					THEN sls_sales / NULLIF(sls_quantity, 0)
-				ELSE sls_price  -- Derive price if original value is invalid
+				ELSE sls_price
 			END AS sls_price
 		FROM bronze.crm_sales_detail;
-        SET @end_time = GETDATE();
-        PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
-        PRINT '>> -------------';
+
+		SET @end_time = GETDATE();
+		PRINT '>> Load Duration: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' seconds';
+		PRINT '>> -------------';
 
         -- Loading erp_cust_az12
         SET @start_time = GETDATE();

@@ -11,8 +11,8 @@ END;
 GO
 
 CREATE TABLE bronze.crm_cust_info (
-    cst_id             INT            NOT NULL,
-    cst_key            INT            NULL,
+    cst_id             INT            NULL,
+    cst_key            NVARCHAR(50)            NULL,
     cst_firstname      NVARCHAR(50)   NULL,
     cst_lastname       NVARCHAR(50)   NULL,
     cst_marital_status NVARCHAR(50)   NULL,
